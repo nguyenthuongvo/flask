@@ -114,3 +114,9 @@ def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
     return redirect(url_for("index"))
+
+@bp.route("/tracking", methods=("GET", "POST"))
+def tracking():
+    """Verify user id by RFID for QRCODE
+    """
+    return render_template("auth/tracking.html")

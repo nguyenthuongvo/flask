@@ -1,4 +1,5 @@
 Flaskr
+https://github.com/pallets/flask/tree/master/examples/tutorial
 ======
 
 The basic blog app built in the Flask `tutorial`_.

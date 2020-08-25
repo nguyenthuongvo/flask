@@ -62,11 +62,12 @@ def get_post(id, check_author=True):
 def create():
     """Create a new post for the current user."""
     if request.method == "POST":
-        title = request.form["title"]
-        body = request.form["body"]
+        name = request.form["name"]
+        phone = request.form["phone"]
+
         error = None
 
-        if not title:
+        if not name:
             error = "Title is required."
 
         if error is not None:
@@ -75,7 +76,7 @@ def create():
             db = get_db()
             db.execute(
                 "INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)",
-                (title, body, g.user["id"]),
+                (name, phone, g.user["id"]),
             )
             db.commit()
             return redirect(url_for("blog.index"))
