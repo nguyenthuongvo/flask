@@ -48,18 +48,18 @@ def register():
     """Register a new user.
 
     Validates that the username is not already taken. Hashes the
-    password for security.
+    phone for security.
     """
     if request.method == "POST":
         username = request.form["username"]
-        password = request.form["password"]
+        phone = request.form["phone"]
         db = get_db()
         error = None
 
         if not username:
             error = "Username is required."
-        elif not password:
-            error = "Password is required."
+        elif not phone:
+            error = "phone is required."
         elif (
             db.execute("SELECT id FROM user WHERE username = ?", (username,)).fetchone()
             is not None
@@ -70,8 +70,8 @@ def register():
             # the name is available, store it in the database and go to
             # the login page
             db.execute(
-                "INSERT INTO user (username, password) VALUES (?, ?)",
-                (username, generate_password_hash(password)),
+                "INSERT INTO user (username, phone) VALUES (?, ?)",
+                (username, generate_password_hash(phone)),
             )
             db.commit()
             return redirect(url_for("auth.login"))
@@ -86,7 +86,7 @@ def login():
     """Log in a registered user by adding the user id to the session."""
     if request.method == "POST":
         username = request.form["username"]
-        password = request.form["password"]
+        phone = request.form["phone"]
         db = get_db()
         error = None
         user = db.execute(
@@ -95,8 +95,8 @@ def login():
 
         if user is None:
             error = "Incorrect username."
-        elif not check_password_hash(user["password"], password):
-            error = "Incorrect password."
+        elif not check_password_hash(user["phone"], phone):
+            error = "Incorrect phone."
 
         if error is None:
             # store the user id in a new session and return to the index
